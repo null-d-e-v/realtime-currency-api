@@ -2,10 +2,10 @@ import { Controller, Get, Res } from "routing-controllers";
 import { Response } from "express";
 
 @Controller('/')
-export class IndexRouter {
+export default class IndexRouter {
 
   @Get('/')
   index(@Res() res: Response) {
-    res.status(200).json({ 'message': 'Endpoint created successfully' })
+    return res.status(200).json({ title: 'Realtime Currency API', version: '1.0.0' })
   }
 }
