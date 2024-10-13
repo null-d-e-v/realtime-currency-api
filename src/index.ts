@@ -1,6 +1,7 @@
 import express from 'express'
 import session from 'express-session'
 import cors, { CorsOptions } from 'cors'
+import SessionFileStore from 'session-file-store'
 
 import { createRouter } from './router'
 
@@ -11,6 +12,7 @@ declare module 'express-session' {
 }
 
 const app = express()
+const FileStore = SessionFileStore(session)
 const corsConfig: CorsOptions = {
   origin: '*'
 }
@@ -21,6 +23,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   name: 'xsessionid',
+  store: new FileStore(),
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'none'
