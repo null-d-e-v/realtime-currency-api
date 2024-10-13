@@ -1,11 +1,17 @@
-import { Controller, Get, Res } from "routing-controllers";
-import { Response } from "express";
+import express, { Express } from 'express'
 
-@Controller('/')
-export default class IndexRouter {
+import IndexRouter from './main'
+import ConvertRouter from './converter'
 
-  @Get('/')
-  index(@Res() res: Response) {
-    return res.status(200).json({ title: 'Realtime Currency API', version: '1.0.0' })
-  }
+const createApiRouter = () => {
+  const apiRouter = express.Router()
+
+  apiRouter.use('/convert', ConvertRouter)
+
+  return apiRouter
+}
+
+export const createRouter = (app: Express) => {
+  app.use(IndexRouter)
+  app.use('/api', createApiRouter())
 }
