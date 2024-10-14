@@ -12,11 +12,17 @@ declare module 'express-session' {
 }
 
 const app = express()
+
+// Server utils
 const FileStore = SessionFileStore(session)
 const corsConfig: CorsOptions = {
   origin: '*'
 }
 
+// Server settings
+app.set("trust proxy", 1)
+
+// Server middlwares
 app.use(cors(corsConfig))
 app.use(session({
   secret: String(process.env.COOKIE_PWD),
@@ -25,11 +31,12 @@ app.use(session({
   name: 'xsessionid',
   store: new FileStore(),
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: true, //INFO To test you need a site with ssl or self signed cert
     sameSite: 'none'
   }
 }))
 
+// Server router
 createRouter(app)
 
 const port = process.env.PORT || 3000
