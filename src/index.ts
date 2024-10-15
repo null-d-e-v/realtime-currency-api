@@ -33,7 +33,7 @@ app.use(session({
   store: new FileStore(),
   cookie: {
     secure: true, //INFO To test you need a site with ssl or self signed cert
-    sameSite: 'none'
+    sameSite: 'strict'
   }
 }))
 
