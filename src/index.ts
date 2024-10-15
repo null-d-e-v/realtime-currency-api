@@ -16,7 +16,8 @@ const app = express()
 // Server utils
 const FileStore = SessionFileStore(session)
 const corsConfig: CorsOptions = {
-  origin: '*'
+  origin: '*',
+  credentials: true
 }
 
 // Server settings
