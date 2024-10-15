@@ -2,7 +2,7 @@ import express from 'express'
 
 const router = express.Router()
 
-router.get('/:from/:to', (req, res) => {
+router.post('/:from/:to', (req, res) => {
   if (!req.session.user) {
     return res.redirect('/')
   }
