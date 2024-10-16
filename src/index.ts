@@ -4,6 +4,9 @@ import cors, { CorsOptions } from 'cors'
 import SessionFileStore from 'session-file-store'
 
 import { createRouter } from './router'
+import logger from './utils/logger'
+import { httpLogger } from './middlewares/logger'
+
 
 declare module 'express-session' {
   interface Session {
@@ -23,7 +26,8 @@ const corsConfig: CorsOptions = {
 // Server settings
 app.set("trust proxy", 1)
 
-// Server middlwares
+// Server middlewares
+app.use(httpLogger)
 app.use(cors(corsConfig))
 app.use(session({
   secret: String(process.env.COOKIE_PWD),
@@ -43,7 +47,7 @@ createRouter(app)
 const port = process.env.PORT || 3000
 
 app.listen(port, () => {
-  console.log(`Server listen on port ${port}`)
+  logger.info(`Server listen on port ${port}`)
 })
 
 
