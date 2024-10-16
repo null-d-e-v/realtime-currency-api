@@ -1,10 +1,10 @@
 import express from 'express'
-import session from 'express-session'
-import cors, { CorsOptions } from 'cors'
-import SessionFileStore from 'session-file-store'
+import bodyParser from 'body-parser'
 
-import { createRouter } from './router'
 import logger from './utils/logger'
+import useCors from './utils/cors'
+import useSession from './utils/session'
+import { createRouter } from './router'
 import { httpLogger } from './middlewares/logger'
 
 
@@ -16,32 +16,15 @@ declare module 'express-session' {
 
 const app = express()
 
-// Server utils
-const FileStore = SessionFileStore(session)
-const corsConfig: CorsOptions = {
-  origin: '*',
-  credentials: true
-}
-
-// Server settings
 app.set("trust proxy", 1)
+app.disable('x-powered-by')
 
-// Server middlewares
 app.use(httpLogger)
-app.use(cors(corsConfig))
-app.use(session({
-  secret: String(process.env.COOKIE_PWD),
-  resave: false,
-  saveUninitialized: true,
-  name: 'xsessionid',
-  store: new FileStore(),
-  cookie: {
-    secure: true, //INFO To test you need a site with ssl or self signed cert
-    sameSite: 'none'
-  }
-}))
+app.use(bodyParser.json())
 
-// Server router
+useCors(app)
+useSession(app)
+
 createRouter(app)
 
 const port = process.env.PORT || 3000
