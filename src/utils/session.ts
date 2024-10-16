@@ -7,7 +7,7 @@ const FileStore = SessionFileStore(session)
 export const CONFIG: SessionOptions = {
   secret: String(process.env.COOKIE_PWD),
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   name: 'xsessionid',
   store: new FileStore(),
   cookie: {
