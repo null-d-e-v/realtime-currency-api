@@ -2,12 +2,16 @@ import express from 'express'
 
 const router = express.Router()
 
-router.post('/:from/:to', (req, res) => {
+router.get('/', (req, res) => {
   if (!req.session.user) {
     return res.redirect('/')
   }
 
-  res.status(200).json({ message: 'LLegaste!' })
+  const { from, to } = req.query
+
+  console.log(from, to)
+
+  res.status(200).json({ 'message': 'hola' })
 })
 
 export default router
